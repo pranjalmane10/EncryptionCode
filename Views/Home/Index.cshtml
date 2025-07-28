@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="container">
+    <h2>Symmetric Key Encryption</h2>
+
+    <div class="form-group">
+        <label for="encryptionKey">Encryption Key</label>
+        <input type="text" id="encryptionKey" class="form-control" value="@ViewBag.EncryptionKey" placeholder="Enter encryption key" />
+    </div>
+    <div class="form-group">
+        <label for="plainText">Plain Text</label>
+        <input type="text" id="plainText" class="form-control" placeholder="Enter plain text to encrypt" />
+    </div>
+
+   <div class="form-group">
+        <button id="encryptButton" class="btn btn-primary" onClick="encryptData()">Encrypt</button>
+    </div>
+
+    <div class="form-group">
+        <label for="encryptedText">Encrypted Text</label>
+        <input type="text" id="encryptedText" class="form-control" placeholder="Encrypted text will appear here" />
+    </div>
+
+    <div class="form-group">
+        <button id="decryptButton" class="btn btn-secondary" onClick="decryptData()">Decrypt</button>
+    </div>
+
+    
+    <div class="form-group">
+        <label for="decryptedOutput">Decrypted Text</label>
+        <div id="decryptedOutput" class="form-control-plaintext bg-light" style="border: 1px solid #ced4da; padding: 10px;">
+       
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function encryptData() {
+            const key = document.getElementById("encryptionKey").value;
+            const plainText = document.getElementById("plainText").value;
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("EncryptData", "Home")',
+                data: { key: key, plainText: plainText },
+                success: function (response) {
+                    if (response.success) {
+                        document.getElementById("encryptedText").value = response.encryptedText;
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            });
+        }
+          function decryptData() {
+            const key = document.getElementById("encryptionKey").value;
+            const encryptedText = document.getElementById("encryptedText").value;
+
+              $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DecryptData", "Home")',
+                data: { key: key, encryptedText: encryptedText },
+                success: function (response) {
+                    if (response.success) {
+                        document.getElementById("decryptedOutput").innerText = response.plainText;
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            });
+        }
+    </script>
+}
