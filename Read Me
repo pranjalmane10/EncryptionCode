@@ -1,0 +1,13 @@
+https://github.com/pranjalmane10/EncryptionCode  Added AES encryption for database connection string using 16-character key in .NET MVC
+Secure Connection String Handling
+This application secures the connection string using AES-128 encryption.
+ How it works:
+- The actual connection string is encrypted and saved in `appsettings.json`
+- A 16-character key (128-bit) is required for encryption/decryption
+- The key should be stored securely (e.g., environment variable or key vault)
+Key Format:
+Must be **exactly 16 characters** long (e.g., `MyMangoWasp12345`)
+ Why this is needed:
+Storing credentials in plain text in configuration files is a security risk. AES encryption ensures confidentiality of sensitive data.
+ How to encrypt:
+A utility method is provided to encrypt your connection string before storing it in the config.
